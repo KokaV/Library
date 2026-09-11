@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-layout">
+        <div id="library-container"></div>
+
+        <form id="book-form">
+            <h2>Add New Book</h2>
+            <input type="text" id="title" placeholder="Book Title" required>
+            <input type="text" id="author" placeholder="Author" required>
+            <input type="number" id="pages" placeholder="Number of Pages" required>
+            <input type="url" id="image" placeholder="Image URL" required>
+            
+            <label class="checkbox-label">
+                <input type="checkbox" id="read"> Already Read
+            </label>
+            
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
