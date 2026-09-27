@@ -1,12 +1,19 @@
 const myLibrary = JSON.parse(localStorage.getItem("library")) || [];
 
-function Book(title, author, pages, read, image) {
-    this.id = crypto.randomUUID();
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.image = image;
+class Book {
+    constructor(title, author, pages, read, image) {
+        this.id = crypto.randomUUID();
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this.image = image;
+    }
+
+    // კლასის მეთოდი სტატუსის შესაცვლელად
+    toggleReadStatus() {
+        this.read = !this.read;
+    }
 }
 
 function addBookToLibrary(title, author, pages, read, image) {
@@ -71,12 +78,29 @@ const container = document.getElementById("library-container");
 container.addEventListener("change", function(e) {
     if (e.target.classList.contains("toggle-read")) {
         const bookId = e.target.dataset.id;
-        const book = myLibrary.find(function(b) {
+        
+        // ვპოულობთ წიგნს მასივში
+        const bookData = myLibrary.find(function(b) {
             return b.id === bookId;
         });
         
-        if (book) {
-            book.read = e.target.checked;
+        if (bookData) {
+            // ვქმნით ნამდვილ Book კლასის ობიექტს, რომ გამოვიყენოთ მისი მეთოდი
+            // (იმიტომ რომ localStorage-დან ამოღებული ობიექტები მეთოდებს "კარგავენ" და ზოგადი ობიექტები ხდებიან)
+            const book = new Book(
+                bookData.title, 
+                bookData.author, 
+                bookData.pages, 
+                bookData.read, 
+                bookData.image
+            );
+            book.id = bookData.id; // ვინარჩუნებთ ძველ აიდის
+            
+            book.toggleReadStatus(); // ვიყენებთ კლასის მეთოდს
+            
+            // ვანახლებთ მასივში მნიშვნელობას
+            bookData.read = book.read;
+            
             localStorage.setItem("library", JSON.stringify(myLibrary));
         }
     }
